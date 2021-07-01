@@ -61,7 +61,7 @@ public class QuizController {
 
         if (card == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else if (card.getAnswer() != answer) {
+        } else if (true/*card.getAnswer() != answer*/) {
             result.setSuccess(false);
             result.setFeedback("Wrong answer! Please, try again.");
         } else {

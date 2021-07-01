@@ -1,24 +1,25 @@
 package engine.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class QuizCard {
 
-    //private int id;
+    @NotBlank
     private String title;
+    @NotBlank
     private String text;
+    @Size(min = 2)
     private List<String> options;
-    private int answer;
+    @NotNull
+    private List<Integer> answer;
 
     public QuizCard() {
     }
 
-    public QuizCard(String title, String text, List<String> options, int answer) {
-        //this.id = id;
+    public QuizCard(String title, String text, List<String> options, List<Integer> answer) {
         this.title = title;
         this.text = text;
         this.options = options;
@@ -49,18 +50,18 @@ public class QuizCard {
         this.options = options;
     }
 
-    public int getAnswer() {
+    public List<Integer> getAnswer() {
         return answer;
     }
 
-    public void setAnswer(int answer) {
+    public void setAnswer(List<Integer> answer) {
         this.answer = answer;
     }
 
     @Override
     public String toString() {
         return "QuizCard{" +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", text='" + text + '\'' +
                 ", options=" + options +
                 ", answer=" + answer +

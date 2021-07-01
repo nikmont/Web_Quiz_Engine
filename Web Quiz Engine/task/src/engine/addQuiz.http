@@ -1,0 +1,11 @@
+POST http://localhost:8889/api/quizzes
+Content-Type: application/json
+
+{
+  "title": "Coffee drinks",
+  "text": "Select only coffee drinks.",
+  "options": ["Americano","Tea","Cappuccino","Sprite"],
+  "answer": [0,2]
+}
+
+###

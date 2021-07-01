@@ -12,7 +12,7 @@ public class QuizCardDTO {
     private String text;
     private List<String> options;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private int answer;
+    private List<Integer> answer;
 
 
     public QuizCardDTO(QuizCard card, int index) {
@@ -56,11 +56,11 @@ public class QuizCardDTO {
         this.options = options;
     }
 
-    public int getAnswer() {
+    public List<Integer> getAnswer() {
         return answer;
     }
 
-    public void setAnswer(int answer) {
+    public void setAnswer(List<Integer> answer) {
         this.answer = answer;
     }
 }
