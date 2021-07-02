@@ -1,0 +1,33 @@
+POST http://localhost:8889/api/quizzes
+Content-Type: application/json
+
+{
+  "title":"With answ",
+  "text":"some text here",
+  "options":["we", "ew"],
+  "answer" : [1, 2, 5]
+}
+
+###
+
+POST http://localhost:8889/api/quizzes
+Content-Type: application/json
+
+{
+  "title":"Empty answ",
+  "text":"some text here",
+  "options":["ri", "ir"],
+  "answer" : []
+}
+
+###
+
+POST http://localhost:8889/api/quizzes
+Content-Type: application/json
+
+{
+  "title":"Null answ",
+  "text":"some text here",
+  "options":["ke", "ek"]
+}
+

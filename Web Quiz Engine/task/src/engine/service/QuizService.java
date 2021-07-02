@@ -16,9 +16,10 @@ public class QuizService {
         quizCards = new ArrayList<>();
     }
 
-    public List<QuizCardDTO> getCards() {
+    public List<QuizCardDTO> getAll() {
         return quizCards.stream()
-                .map(q -> new QuizCardDTO(q, quizCards.indexOf(q) + 1)).collect(Collectors.toList());
+                .map(q -> new QuizCardDTO(q, quizCards.indexOf(q) + 1))
+                .collect(Collectors.toList());
     }
 
     public QuizCardDTO getCard(int id) {
@@ -27,11 +28,16 @@ public class QuizService {
     }
 
     public void add(QuizCard card) {
+        System.out.println("Adding:\n" + card);
         this.quizCards.add(card);
     }
 
     public QuizCardDTO getLatsCard() {
         QuizCard quiz = quizCards.get(quizCards.size() - 1);
         return new QuizCardDTO(quiz, quizCards.indexOf(quiz) + 1);
+    }
+
+    public int getQuizCardSize() {
+        return quizCards.size();
     }
 }

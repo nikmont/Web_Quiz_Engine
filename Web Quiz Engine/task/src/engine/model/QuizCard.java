@@ -7,13 +7,13 @@ import java.util.List;
 
 public class QuizCard {
 
-    @NotBlank
+    @NotBlank(message = "Title should not be empty")
     private String title;
-    @NotBlank
+    @NotBlank(message = "Text should not be empty")
     private String text;
-    @Size(min = 2)
-    private List<String> options;
+    @Size(min = 2, message = "Minimum number of options is 2")
     @NotNull
+    private List<String> options;
     private List<Integer> answer;
 
     public QuizCard() {

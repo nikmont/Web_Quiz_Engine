@@ -1,0 +1,8 @@
+POST http://localhost:8889/api/quizzes/1/solve
+Content-Type: application/json
+
+{
+  "answer": [0,2]
+}
+
+###

@@ -1,16 +1,16 @@
 package engine.model;
 
-public class Answer {
+public class Result {
 
     private String feedback;
     private boolean success;
 
-    public Answer(String feedback, boolean success) {
+    public Result(String feedback, boolean success) {
         this.feedback = feedback;
         this.success = success;
     }
 
-    public Answer() {
+    public Result() {
     }
 
     public String getFeedback() {
