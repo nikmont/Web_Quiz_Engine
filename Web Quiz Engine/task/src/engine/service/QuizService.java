@@ -1,43 +1,57 @@
 package engine.service;
 
+import engine.dto.AnswerDTO;
 import engine.dto.QuizCardDTO;
+import engine.exceptions.WrongQuizIdException;
 import engine.model.QuizCard;
+import engine.repos.QuizCardRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class QuizService {
 
-    private List<QuizCard> quizCards;
+    private QuizCardRepository repository;
 
-    public QuizService() {
-        quizCards = new ArrayList<>();
+    @Autowired
+    public QuizService(QuizCardRepository repository) {
+        this.repository = repository;
     }
 
     public List<QuizCardDTO> getAll() {
-        return quizCards.stream()
-                .map(q -> new QuizCardDTO(q, quizCards.indexOf(q) + 1))
-                .collect(Collectors.toList());
+        return repository.findAll().stream()
+                        .map(q -> new QuizCardDTO(q, q.getId()))
+                        .collect(Collectors.toList());
     }
 
-    public QuizCardDTO getCard(int id) {
-        QuizCard quiz = quizCards.get(id - 1);
-        return new QuizCardDTO(quiz, quizCards.indexOf(quiz) + 1);
+    public QuizCardDTO getCard(long id) {
+
+        QuizCard quiz = repository.findById(id)
+                .orElseThrow(WrongQuizIdException::new);
+
+        return new QuizCardDTO(quiz, quiz.getId());
     }
 
-    public void add(QuizCard card) {
-        System.out.println("Adding:\n" + card);
-        this.quizCards.add(card);
+    public QuizCardDTO add(QuizCard card) {
+        QuizCard savedCard = repository.save(card);
+        return new QuizCardDTO(savedCard, savedCard.getId());
     }
 
-    public QuizCardDTO getLatsCard() {
-        QuizCard quiz = quizCards.get(quizCards.size() - 1);
-        return new QuizCardDTO(quiz, quizCards.indexOf(quiz) + 1);
+    public boolean checkAnswer(AnswerDTO answer, int id) {
+
+        //if (id > quizCards.size()) throw new IndexOutOfBoundsException();
+
+        List<Integer> correctAnswers = getCard(id).getAnswer();
+
+        List<Integer> incomeAnswers = answer.getAnswer();
+
+//        System.out.println("Answers from DB: " + correctAnswers);
+//        System.out.println("Answers from Request: " + incomeAnswers);
+//        System.out.println(incomeAnswers.equals(correctAnswers));
+
+        return incomeAnswers.equals(correctAnswers);
     }
 
-    public int getQuizCardSize() {
-        return quizCards.size();
-    }
 }

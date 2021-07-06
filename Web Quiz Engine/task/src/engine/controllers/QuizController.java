@@ -2,6 +2,7 @@ package engine.controllers;
 
 import engine.dto.AnswerDTO;
 import engine.dto.QuizCardDTO;
+import engine.exceptions.WrongQuizIdException;
 import engine.model.QuizCard;
 import engine.model.Result;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,14 @@ public class QuizController {
     @Autowired
     public QuizController(QuizService quizService) {
         this.quizService = quizService;
+    }
+
+    @RequestMapping(value = "/quizzes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<QuizCardDTO> addQuizCard(@RequestBody @Valid QuizCard quiz) {
+
+        if (quiz == null) { return new ResponseEntity<>(HttpStatus.BAD_REQUEST);}
+
+        return new ResponseEntity<>(quizService.add(quiz), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/quizzes", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,39 +64,14 @@ public class QuizController {
 
     @RequestMapping(value = "/quizzes/{id}/solve", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Result> solveQuizCard(@PathVariable("id") int id, @RequestBody AnswerDTO answerDTO) {
-
-        QuizCardDTO card;
-        Result result = new Result();
-        List<Integer> answer;
+        Result result;
 
         try {
-            card = quizService.getCard(id);
-            answer = answerDTO.getAnswer();
-
-            if (!card.getAnswer().equals(answer)) {
-
-                result.setSuccess(false);
-                result.setFeedback("Wrong answer! Please, try again.");
-            } else {
-                result.setSuccess(true);
-                result.setFeedback("Congratulations, you're right!");
-            }
+            result = new Result(quizService.checkAnswer(answerDTO, id));
         } catch (IndexOutOfBoundsException ex) {
             throw new WrongQuizIdException();
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/quizzes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<QuizCardDTO> addQuizCard(@RequestBody @Valid QuizCard quiz) {
-
-        if (quiz == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        quizService.add(quiz);
-
-        return new ResponseEntity<>(quizService.getLatsCard(), HttpStatus.OK);
     }
 }

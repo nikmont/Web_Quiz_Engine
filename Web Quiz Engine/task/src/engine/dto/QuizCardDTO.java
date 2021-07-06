@@ -7,7 +7,7 @@ import java.util.List;
 
 public class QuizCardDTO {
 
-    private int id;
+    private Long id;
     private String title;
     private String text;
     private List<String> options;
@@ -15,7 +15,7 @@ public class QuizCardDTO {
     private List<Integer> answer;
 
 
-    public QuizCardDTO(QuizCard card, int index) {
+    public QuizCardDTO(QuizCard card, Long index) {
         this.text = card.getText();
         this.title = card.getTitle();
         this.options = card.getOptions();
@@ -23,12 +23,12 @@ public class QuizCardDTO {
         this.id = index;
     }
 
-
-    public int getId() {
+    //no lombok, only hardcode ;)
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

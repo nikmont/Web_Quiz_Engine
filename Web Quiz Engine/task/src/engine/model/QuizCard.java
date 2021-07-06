@@ -1,20 +1,42 @@
 package engine.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "quizzes")
 public class QuizCard {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column
     @NotBlank(message = "Title should not be empty")
     private String title;
+
+    @Column
     @NotBlank(message = "Text should not be empty")
     private String text;
+
+    @ElementCollection
+    @CollectionTable
+    @Column
     @Size(min = 2, message = "Minimum number of options is 2")
     @NotNull
     private List<String> options;
-    private List<Integer> answer;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ElementCollection
+    @CollectionTable
+    @Column
+    private List<Integer> answer = new ArrayList<>();
 
     public QuizCard() {
     }
@@ -56,6 +78,14 @@ public class QuizCard {
 
     public void setAnswer(List<Integer> answer) {
         this.answer = answer;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

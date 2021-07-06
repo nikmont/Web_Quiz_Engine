@@ -5,8 +5,8 @@ public class Result {
     private String feedback;
     private boolean success;
 
-    public Result(String feedback, boolean success) {
-        this.feedback = feedback;
+    public Result(boolean success) {
+        this.feedback = success ? "Congratulations, you're right!" : "Wrong answer! Please, try again.";
         this.success = success;
     }
 
@@ -17,15 +17,7 @@ public class Result {
         return feedback;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
-    }
-
     public boolean isSuccess() {
         return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 }
